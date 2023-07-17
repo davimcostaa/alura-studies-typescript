@@ -2,16 +2,22 @@ import { ITarefa } from '../../types/tarefa'
 import Item from './Item'
 import styles from './Lista.module.scss' 
 
+interface Props {
+  tarefas: ITarefa[],
+  selecionaTarefa: (tarefaSelecionada: ITarefa) => void 
+}
 
-const Lista = ({tarefas} : {tarefas: ITarefa[]}) => {
+
+const Lista = ({tarefas, selecionaTarefa} : Props) => {
   
   return (
     <aside className={styles.listaTarefas}>
         <h2>Estudos do dia</h2>
         <ul>
-            { tarefas.map((item, index) => (
+            { tarefas.map((item) => (
              <Item
-             key={index}
+             selecionaTarefa={selecionaTarefa}
+             key={item.id}
              {...item}
            />
             )) }
