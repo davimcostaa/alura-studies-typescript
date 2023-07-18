@@ -44,6 +44,7 @@ function App() {
         selecionado={selecionado}
         finalizarTarefa={finalizarTarefa}
         />
+        
     </div>
   );
 }

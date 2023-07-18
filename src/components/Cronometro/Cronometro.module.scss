@@ -21,6 +21,11 @@
     .titulo {
       font-size: 2rem;
     }
+
+    .botoesWrapper {
+      display: flex;
+      gap: 10px;
+    }
   
     button {
       background-color: #88bcd1;

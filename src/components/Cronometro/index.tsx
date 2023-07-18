@@ -14,6 +14,8 @@ interface Props {
 const Cronometro = ({ selecionado, finalizarTarefa }: Props) => {
 
   const [tempo, setTempo] = useState<number>();
+  const [botaoAtivado, setBotaoAtivado] = useState(false)
+  const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if(selecionado?.tempo) {
@@ -23,16 +25,21 @@ const Cronometro = ({ selecionado, finalizarTarefa }: Props) => {
   }, [selecionado])
 
   function regressiva(contador: number = 0) {
-      setTimeout(() => {
+    setBotaoAtivado(true)
+      const timeOut = setTimeout(() => {
         if(contador > 0) {
           setTempo(contador - 1)
           return regressiva(contador - 1)
         }
         finalizarTarefa() 
+        setBotaoAtivado(false)
       }, 1000)
-
+      setTimerId(timeOut)
   }
   
+  function pararRegressiva() {
+    clearTimeout(String(timerId));
+  }
 
   return (
     <div className={style.cronometro}>
@@ -41,9 +48,36 @@ const Cronometro = ({ selecionado, finalizarTarefa }: Props) => {
       <div className={style.relogioWrapper}>
          <Relogio tempo={tempo} />
       </div>
-         <Botao onClick={() => regressiva(tempo)}>
-            Começar!
-         </Botao>
+
+      <div className={style.botoesWrapper}>
+ 
+
+        {
+          selecionado
+          ?
+          <Botao onClick={() => regressiva(tempo)}  >
+              {
+                selecionado && !botaoAtivado
+                ?
+                "Começar!"
+                :
+                "Continuar!"
+              }
+          </Botao>
+          : 
+          ''
+        }
+
+        {
+          botaoAtivado && selecionado
+          ?
+          <Botao onClick={pararRegressiva}>
+            Pausar
+          </Botao>
+          :
+          ''
+        }
+         </div>
     </div>     
   )
 }

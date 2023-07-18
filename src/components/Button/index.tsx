@@ -7,7 +7,7 @@ interface Props {
   type?: "button" | "submit" | "reset" | undefined
   onClick?: () => void
 }
-const Botao = ({onClick, type, children}: Props) => {
+const Botao = ({onClick, type, children }: Props) => {
   return (
     <button type={type} className={style.botao} onClick={onClick}>
     {children}
